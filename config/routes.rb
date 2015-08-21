@@ -8,7 +8,7 @@ Sil::Application.routes.draw do
     scope module: :v1,
                   constraints: ApiConstraints.new( version: 1, default: true ) do
       # List of resources 
-      resources :users, :only => [:show, :create]
+      resources :users, :only => [:show, :create, :update]
     end
   end
 end
