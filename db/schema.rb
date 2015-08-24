@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824185932) do
+ActiveRecord::Schema.define(version: 20150824215322) do
+
+  create_table "inventory_items", force: :cascade do |t|
+    t.string   "name",        default: " "
+    t.text     "description", default: " "
+    t.string   "image_url",   default: "default_item.png"
+    t.string   "type",        default: "unit"
+    t.string   "status",      default: "active"
+    t.integer  "user_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
