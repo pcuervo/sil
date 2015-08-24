@@ -10,6 +10,7 @@ Sil::Application.routes.draw do
                   constraints: ApiConstraints.new( version: 1, default: true ) do
       # List of resources 
       resources :users, :only => [:show, :create, :update, :destroy]
+      resources :sessions, :only => [:create, :destroy]
     end
   end
 end
