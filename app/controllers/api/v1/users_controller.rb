@@ -3,6 +3,7 @@ class Api::V1::UsersController < ApplicationController
 	respond_to :json
 
 	def show
+		puts 'dafuq'
 		respond_with User.find(params[:id])
 	end
 

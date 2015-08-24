@@ -42,4 +42,5 @@ describe Api::V1::SessionsController do
 		end
 
 		it { should respond_with 204 }
+	end
 end
