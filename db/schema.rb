@@ -11,20 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824215322) do
+ActiveRecord::Schema.define(version: 20150825020849) do
 
   create_table "inventory_items", force: :cascade do |t|
-    t.string   "name",        default: " "
-    t.text     "description", default: " "
-    t.string   "image_url",   default: "default_item.png"
-    t.string   "type",        default: "unit"
-    t.string   "status",      default: "active"
+    t.string   "name",         default: " "
+    t.text     "description",  default: " "
+    t.string   "image_url",    default: "default_item.png"
+    t.string   "status",       default: "active"
     t.integer  "user_id"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "actable_id"
+    t.string   "actable_type"
   end
 
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id"
+
+  create_table "unit_items", force: :cascade do |t|
+    t.string   "serial_number", default: " "
+    t.string   "brand",         default: " "
+    t.string   "model",         default: " "
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

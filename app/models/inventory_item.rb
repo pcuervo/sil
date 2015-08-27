@@ -1,5 +1,7 @@
 class InventoryItem < ActiveRecord::Base
-  validates :name, :user_id, :type, :status, presence: true
-
+  actable
   belongs_to :user
+
+  validates :name, :user_id, :status, presence: true
+  
 end
