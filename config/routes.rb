@@ -9,15 +9,17 @@ Sil::Application.routes.draw do
     scope module: :v1,
                   constraints: ApiConstraints.new( version: 1, default: true ) do
       # List of resources 
-      resources :users, :only => [:index, :show, :create, :update, :destroy ] do
+      resources :users, :only => [:index, :show, :create, :update, :destroy] do
         resources :inventory_items, :only => [:create]
       end
       resources :sessions, :only => [:create, :destroy]
-      resources :inventory_items, :only => [:index, :show] do
-        collection do 
-          get 'show_unit_item/:id', :action => 'show_unit_item'
-        end
-      end
+      resources :inventory_items, :only => [:index, :show]
+      resources :projects, :only => [:show]
+      #  do
+      #   collection do 
+      #     get 'show_unit_item/:id', :action => 'show_unit_item'
+      #   end
+      # end
 
     end
   end
