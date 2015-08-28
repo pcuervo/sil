@@ -31,6 +31,6 @@ class Api::V1::ProjectsController < ApplicationController
   private
 
     def project_params
-      params.require(:project).permit(:name, :litobel_id)
+      params.require(:project).permit(:name, :litobel_id, :user_id)
     end
 end

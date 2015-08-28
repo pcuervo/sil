@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  before_create :generate_authentication_token!
+
 	validates :auth_token, uniqueness: true
   validates :role, inclusion: { in: [1, 2, 3], message: "%{value} is not a valid role" }
   validates :name, :last_name, :email, :role, presence: true
@@ -8,7 +10,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
- 	before_create :generate_authentication_token!
+  has_many :inventory_items
+  has_many :projects
+
+  # AVAILABLE ROLES
+  ADMIN = 1
+  PM = 2
  	
  	def generate_authentication_token!
     begin
@@ -16,5 +23,6 @@ class User < ActiveRecord::Base
     end while self.class.exists?(auth_token: auth_token)
   end
 
-  has_many :inventory_items
+  scope :admin_users, -> { where(role: ADMIN) }
+  scope :pm_users, -> { where(role: PM) }
 end

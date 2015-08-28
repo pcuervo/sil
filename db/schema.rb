@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828171655) do
+ActiveRecord::Schema.define(version: 20150828210424) do
 
   create_table "inventory_items", force: :cascade do |t|
     t.string   "name",         default: " "
@@ -27,12 +27,26 @@ ActiveRecord::Schema.define(version: 20150828171655) do
 
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id"
 
+  create_table "logs", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "sys_module"
+    t.string   "action"
+    t.integer  "concept"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "logs", ["user_id"], name: "index_logs_on_user_id"
+
   create_table "projects", force: :cascade do |t|
     t.string   "name",       default: "Empty project"
     t.string   "litobel_id", default: "-"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.integer  "user_id",    default: 1
   end
+
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
   create_table "unit_items", force: :cascade do |t|
     t.string   "serial_number", default: " "

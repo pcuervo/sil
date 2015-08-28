@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Project, type: :model do
-  before { @user = FactoryGirl.build(:project) }
+  before { @project = FactoryGirl.build(:project) }
 
   it { should respond_to(:name) }
   it { should respond_to(:litobel_id) }
@@ -13,4 +13,6 @@ RSpec.describe Project, type: :model do
   it { should validate_presence_of(:litobel_id) }
 
   it { should be_valid }
+
+  it { should belong_to(:user) }
 end

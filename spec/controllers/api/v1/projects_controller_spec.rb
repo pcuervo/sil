@@ -50,7 +50,7 @@ describe Api::V1::ProjectsController do
     context "when project is not created" do
       before(:each) do
         user = FactoryGirl.create :user
-        @invalid_project_attributes = { title: "Proyecto Inválido" }
+        @invalid_project_attributes = { name: "Proyecto Inválido" }
         api_authorization_header user.auth_token
         post :create, { user_id: user.id, project: @invalid_project_attributes }
         post :create, { user_id: user.id, project: @invalid_project_attributes }
