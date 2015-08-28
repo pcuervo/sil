@@ -15,4 +15,16 @@ describe Api::V1::ProjectsController do
 
     it { should respond_with 200 }
   end
+
+  describe "GET #index" do
+    before(:each) do
+      5.times { FactoryGirl.create :project }
+      get :index
+    end
+
+    it "returns 5 records from the database" do
+      project_response = json_response
+      expect(project_response[:projects].size).to eq(5)
+    end
+  end
 end
