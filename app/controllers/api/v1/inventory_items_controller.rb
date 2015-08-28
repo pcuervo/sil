@@ -13,7 +13,6 @@ class Api::V1::InventoryItemsController < ApplicationController
   def create
     inventory_item = InventoryItem.new(inventory_item_params)
 
-    puts params.to_hash
     if inventory_item.save
       render json: inventory_item, status: 201, location: [:api, inventory_item]
     else
