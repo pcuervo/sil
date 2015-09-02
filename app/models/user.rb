@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :inventory_items
+  has_many :logs
   has_many :projects
 
   # AVAILABLE ROLES

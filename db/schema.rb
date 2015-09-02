@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828210424) do
+ActiveRecord::Schema.define(version: 20150830194406) do
 
   create_table "inventory_items", force: :cascade do |t|
     t.string   "name",         default: " "
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20150828210424) do
     t.integer  "user_id"
     t.string   "sys_module"
     t.string   "action"
-    t.integer  "concept"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "actor_id"
   end
 
   add_index "logs", ["user_id"], name: "index_logs_on_user_id"

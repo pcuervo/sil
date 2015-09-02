@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-	before_action :authenticate_with_token!, only: [:update, :destroy]
+	include Loggable
+	before_action :authenticate_with_token!, only: [:update, :create, :destroy]
 	respond_to :json
 
 	def index

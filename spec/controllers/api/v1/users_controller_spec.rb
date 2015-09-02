@@ -20,7 +20,10 @@ describe Api::V1::UsersController do
     context "when is successfully created" do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
-        post :create, { user: @user_attributes }, format: :json
+        @user = FactoryGirl.create :user
+        api_authorization_header @user.auth_token
+        post :create, { id: @user.id,
+                        user: @user_attributes }, format: :json
       end
 
       it "renders the json representation for the user record just created" do
@@ -35,7 +38,10 @@ describe Api::V1::UsersController do
       before(:each) do
         @invalid_user_attributes = { password: "12345678",
                                      password_confirmation: "12345678" }
-        post :create, { user: @invalid_user_attributes }, format: :json
+        @user = FactoryGirl.create :user
+        api_authorization_header @user.auth_token
+        post :create, { id: @user.id,
+                        user: @invalid_user_attributes }, format: :json
       end
 
       it "renders an errors json" do

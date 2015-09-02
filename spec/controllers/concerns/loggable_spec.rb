@@ -8,18 +8,15 @@ describe Loggable do
   let(:user_log) { UserLog.new }
   subject { user_log }
 
-  describe "#log" do
-    context "when a user is created" do
-      before(:each) do
-        user = FactoryGirl.create :user
-        user_log.log "hi mom"
-      end
-
-      it "returns true if the log was registered" do
-        #expect(user_log[:name]).to eql @project_attributes[:name]
-      end
-
-      #it { should respond_with 201 }
+  describe "#log_action" do
+    before do
+      @admin = FactoryGirl.create :user
+      @new_user = FactoryGirl.create :user
     end
+
+    it "returns true when the user created was logged" do
+      expect(user_log.log_action(@admin.id, 'User', 'Create', @new_user.id)).to eq (true)
+    end
+
   end
 end
