@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby "2.1.7"
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use SCSS for stylesheets
@@ -33,6 +31,8 @@ gem 'active_record-acts_as'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'mysql2'
+
 group :development do 
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
@@ -59,10 +59,4 @@ end
 
 gem "devise"
 
-# Sabisu used for testing APi (like Postman)
-gem 'sabisu_rails', github: "IcaliaLabs/sabisu-rails"
-gem 'compass-rails', "2.0.2"
-gem 'furatto'
-gem 'font-awesome-rails'
-gem 'simple_form'
 
