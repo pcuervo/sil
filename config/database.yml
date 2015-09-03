@@ -23,11 +23,3 @@ test:
 production:
   <<: *default
   database: db/production.sqlite3
-
-proudction:
-  adapter: postgresql
-  encoding: unicode
-  database: blog_development
-  pool: 5
-  username: blog
-  password:

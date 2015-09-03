@@ -32,7 +32,7 @@ gem 'active_record-acts_as'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'pg'
+gem 'mysql2'
 
 group :development do 
   # Use sqlite3 as the database for Active Record
