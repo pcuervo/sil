@@ -22,4 +22,14 @@ Sil::Application.routes.draw do
 
     end
   end
+
+  namespace :api, defaults: {format: 'json'} do
+    scope module: :v1, constraints: ApiConstraints.new(version: 1 , default: true) do
+      resources :users, :only => [:index, :show]
+    end
+  end
+
+
+  #get '/users', to: 'api/v1/users#index'
+  
 end
