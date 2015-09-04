@@ -24,6 +24,15 @@ class User < ActiveRecord::Base
     end while self.class.exists?(auth_token: auth_token)
   end
 
+  def get_role 
+    case self.role
+    when ADMIN
+      "Admin"
+    when PM
+      "Project Manager"
+    end
+  end
+
   scope :admin_users, -> { where(role: ADMIN) }
   scope :pm_users, -> { where(role: PM) }
 end

@@ -15,6 +15,7 @@ class Api::V1::UsersController < ApplicationController
 		user = User.new(user_params)
 		if user.save
 			render json: user, status: 201, location: [:api, user]
+			log_action( current_user.id, 'Users', 'Created user "' + user.name + ' ' + user.last_name + ' with role ' + user.get_role , user.id )
 			return
 		end
 
