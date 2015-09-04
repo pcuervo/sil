@@ -1,7 +1,12 @@
 class Api::V1::UsersController < ApplicationController
 	include Loggable
+
 	before_action :authenticate_with_token!, only: [:update, :create, :destroy]
+	before_filter :cors_preflight_check
+  after_filter :cors_set_access_control_headers
+
 	respond_to :json
+
 
 	def index
 		respond_with User.all
@@ -36,6 +41,24 @@ class Api::V1::UsersController < ApplicationController
 	  current_user.destroy
 	  head 204
 	end
+
+	def cors_set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
+    headers['Access-Control-Max-Age'] = "1728000"
+  end
+
+  def cors_preflight_check
+    if request.method == 'OPTIONS'
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+      headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, Token'
+      headers['Access-Control-Max-Age'] = '1728000'
+
+      render :text => '', :content_type => 'text/plain'
+    end
+  end
 
 	private	
 
