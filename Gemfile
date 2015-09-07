@@ -23,6 +23,9 @@ gem 'active_model_serializers'
 # Used of MTI
 gem 'active_record-acts_as'
 
+require 'rack'
+gem 'rack-cors', :require => 'rack/cors'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -40,7 +43,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rack-cors', :require => 'rack/cors'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   # Access an IRB console on exception pages or by using <%= console %> in views
