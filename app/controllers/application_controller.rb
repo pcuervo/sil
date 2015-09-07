@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   include Authenticable
+  include AllowCors
+  include Loggable
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
