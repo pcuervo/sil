@@ -23,7 +23,7 @@ gem 'active_model_serializers'
 # Used of MTI
 gem 'active_record-acts_as'
 
-require 'rack'
+:require => 'rack'
 gem 'rack-cors', :require => 'rack/cors'
 
 # Use ActiveModel has_secure_password
