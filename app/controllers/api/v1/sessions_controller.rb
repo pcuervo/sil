@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     user = user_email.present? && User.find_by(email: user_email)
 
     if user.blank? 
-      render json: { errors: "Nombre de usuario o contraseña incorrectos" }, status: 422
+      render json: { errors: "Invalid email or password" }, status: 422
       return
     end
 
@@ -18,7 +18,7 @@ class Api::V1::SessionsController < ApplicationController
       return
     end
 
-    render json: { errors: "Nombre de usuario o contraseña incorrectos" }, status: 422
+    render json: { errors: "Invalid email or password" }, status: 422
   end
 
   def destroy

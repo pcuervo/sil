@@ -7,5 +7,5 @@ FactoryGirl.define do
 end
 
 def random_number
-  rand(0...1000).to_s
+  rand(0...10000).to_s
 end
