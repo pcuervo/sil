@@ -76,7 +76,7 @@ describe Api::V1::ProjectsController do
   end
 
   describe "PUT/PATCH #update" do
-        context "when project is successfully updated" do
+    context "when project is successfully updated" do
       before(:each) do
         @user = FactoryGirl.create :user
         @project = FactoryGirl.create :project
