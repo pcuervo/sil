@@ -14,6 +14,7 @@ Sil::Application.routes.draw do
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
       resources :projects, :only => [:index, :show, :create, :update, :destroy]
+      resources :clients, :only => [:show, :index]
       #  do
       #   collection do 
       #     get 'show_unit_item/:id', :action => 'show_unit_item'
