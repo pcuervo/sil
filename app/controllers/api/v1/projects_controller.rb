@@ -22,6 +22,17 @@ class Api::V1::ProjectsController < ApplicationController
     render json: { errors: project.errors }, status: 422
   end
 
+  def update
+    project = Project.find(params[:id])
+
+    if project.update(project_params)
+      render json: project, status: 200, location: [:api, project]
+      return
+    end
+
+    render json: { errors: project.errors }, status: 422
+  end
+
   def destroy
     project = Project.find(params[:id])
     project.destroy

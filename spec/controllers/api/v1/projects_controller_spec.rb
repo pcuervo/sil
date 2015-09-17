@@ -75,6 +75,47 @@ describe Api::V1::ProjectsController do
     end
   end
 
+  describe "PUT/PATCH #update" do
+        context "when project is successfully updated" do
+      before(:each) do
+        @user = FactoryGirl.create :user
+        @project = FactoryGirl.create :project
+        api_authorization_header @user.auth_token
+        patch :update, { id: @project.id,
+                          project: { litobel_id: 'hp_new_id', name: 'new_name' } }, format: :json
+      end
+
+      it "renders the json representation for the updated project" do
+        project_response = json_response
+        expect(project_response[:litobel_id]).to eql "hp_new_id"
+        expect(project_response[:name]).to eql "new_name"
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when is not updated because litobel_id is already taken" do
+      before(:each) do
+        @user = FactoryGirl.create :user
+        @project = FactoryGirl.create :project
+        @invalid_project = FactoryGirl.create :project
+        api_authorization_header @user.auth_token
+        patch :update, { id: @invalid_project.id,
+                          project: { litobel_id: @project.litobel_id } }, format: :json
+      end
+
+      it "renders an errors json" do
+        project_response = json_response
+        expect(project_response).to have_key(:errors)
+      end
+
+      it "renders the json errors when the email is invalid" do
+        user_response = json_response
+        expect(user_response[:errors][:litobel_id]).to include "has already been taken"
+      end
+    end
+  end
+
   describe "DELETE #destroy" do
     before(:each) do
       user = FactoryGirl.create :user
