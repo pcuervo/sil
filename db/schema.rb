@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917231003) do
+ActiveRecord::Schema.define(version: 20150929193331) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -66,8 +66,14 @@ ActiveRecord::Schema.define(version: 20150917231003) do
     t.datetime "updated_at",                                null: false
     t.integer  "actable_id"
     t.string   "actable_type"
+    t.integer  "project_id"
+    t.integer  "client_id"
+    t.string   "item_type",    default: "otro"
+    t.string   "code_url",     default: "no_code.png"
   end
 
+  add_index "inventory_items", ["client_id"], name: "index_inventory_items_on_client_id"
+  add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id"
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id"
 
   create_table "logs", force: :cascade do |t|
@@ -100,22 +106,23 @@ ActiveRecord::Schema.define(version: 20150917231003) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",                 null: false
+    t.string   "encrypted_password",     default: "",                 null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,                  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
     t.string   "auth_token",             default: ""
-    t.integer  "role",                   default: 1,  null: false
+    t.integer  "role",                   default: 1,                  null: false
     t.string   "last_name"
     t.string   "name"
+    t.string   "image_url",              default: "default_user.png"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true

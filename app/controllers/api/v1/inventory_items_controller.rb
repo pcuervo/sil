@@ -3,7 +3,7 @@ class Api::V1::InventoryItemsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with InventoryItem.all
+    respond_with InventoryItem.order('created_at DESC').all
   end
 
   def show
@@ -11,7 +11,8 @@ class Api::V1::InventoryItemsController < ApplicationController
   end
 
   def create
-    inventory_item = InventoryItem.new(inventory_item_params)
+    #inventory_item = InventoryItem.new(inventory_item_params)
+    inventory_item = current_user.inventory_items.build(inventory_item_params)
 
     if inventory_item.save
       render json: inventory_item, status: 201, location: [:api, inventory_item]
@@ -23,7 +24,8 @@ class Api::V1::InventoryItemsController < ApplicationController
   private
 
     def inventory_item_params
-      params.require(:inventory_item).permit(:name, :description, :user_id)
+      puts params.to_yaml
+      params.require(:inventory_item).permit(:name, :description, :project_id, :client_id, :status)
     end
 
 end

@@ -33,17 +33,19 @@ describe Api::V1::InventoryItemsController do
     context "when is succesfully created" do
       before(:each) do
         user = FactoryGirl.create :user
+        project = FactoryGirl.create :project
+        client = FactoryGirl.create :client
+
         @inventory_item_attributes = FactoryGirl.attributes_for :inventory_item
+        @inventory_item_attributes[:project_id] = project.id
+        @inventory_item_attributes[:client_id] = client.id
+
         api_authorization_header user.auth_token
         post :create, { user_id: user.id, inventory_item: @inventory_item_attributes }
       end
 
       it "renders the json representation for the inventory item just created" do
         inventory_item_response = json_response
-        # puts 'inventory_item_response'
-        # puts inventory_item_response.to_yaml
-        # puts 'inventory_item_attributes'
-        # puts @inventory_item_attributes.to_yaml
         expect(inventory_item_response[:name]).to eql @inventory_item_attributes[:name]
       end
 

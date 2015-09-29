@@ -25,12 +25,19 @@ Sil::Application.routes.draw do
     end
   end
 
-  # namespace :api, defaults: {format: 'json'} do
-  #   scope module: :v1, constraints: ApiConstraints.new(version: 1 , default: true) do
-  #     resources :sessions, :only => [:create, :destroy]
-  #     resources :users, :only => [:index, :show, :create, :update]
-  #   end
-  # end
+  namespace :api, defaults: {format: :json} do
+    scope module: :v1, constraints: ApiConstraints.new(version: 1 , default: true) do
+      resources :users, :only => [:index, :show, :create, :update, :destroy] do
+        resources :inventory_items, :only => [:create]
+      end
+      
+      resources :sessions, :only => [:create, :destroy]
+      resources :inventory_items, :only => [:index, :show]
+      resources :projects, :only => [:index, :show, :create, :update, :destroy]
+      resources :clients, :only => [:show, :index, :create, :update, :destroy]
+      resources :client_contacts, :only => [:show, :index, :create, :update, :destroy]
+    end
+  end
 
 
   #get '/users', to: 'api/v1/users#index'
