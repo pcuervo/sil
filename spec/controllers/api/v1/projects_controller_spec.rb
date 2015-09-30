@@ -8,7 +8,7 @@ describe Api::V1::ProjectsController do
     end
 
     it "returns the information about project in JSON format" do
-      project_response = json_response
+      project_response = json_response[:project]
       expect(project_response[:name]).to eql @project.name
       expect(project_response[:litobel_id]).to eql @project.litobel_id
     end
@@ -23,8 +23,8 @@ describe Api::V1::ProjectsController do
     end
 
     it "returns 5 records from the database" do
-      project_response = json_response
-      expect(project_response[:projects].size).to eq(5)
+      project_response = json_response[:projects]
+      expect(project_response.size).to eq(5)
     end
 
     it { should respond_with 200 }
@@ -40,7 +40,7 @@ describe Api::V1::ProjectsController do
       end
 
       it "renders the project record just created in JSON format" do
-        project_response = json_response
+        project_response = json_response[:project]
         expect(project_response[:name]).to eql @project_attributes[:name]
       end
 
@@ -86,7 +86,7 @@ describe Api::V1::ProjectsController do
       end
 
       it "renders the json representation for the updated project" do
-        project_response = json_response
+        project_response = json_response[:project]
         expect(project_response[:litobel_id]).to eql "hp_new_id"
         expect(project_response[:name]).to eql "new_name"
       end

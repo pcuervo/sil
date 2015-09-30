@@ -8,7 +8,7 @@ describe Api::V1::ClientsController do
     end
 
     it "returns the information about a client in JSON format" do
-      client_response = json_response
+      client_response = json_response[:client]
       expect(client_response[:name]).to eql @client.name
     end
 
@@ -22,8 +22,8 @@ describe Api::V1::ClientsController do
     end
 
     it "it should return 5 clients from database" do
-      clients_response = json_response
-      expect(clients_response[:clients].size).to eq(5)
+      clients_response = json_response[:clients]
+      expect(clients_response.size).to eq(5)
     end
 
     it { should respond_with 200 }
@@ -39,7 +39,7 @@ describe Api::V1::ClientsController do
       end
 
       it "renders the JSON representation for the client record just created" do
-        client_response = json_response
+        client_response = json_response[:client]
         expect(client_response[:name]).to eql @client_attributes[:name]
       end
 
@@ -81,7 +81,7 @@ describe Api::V1::ClientsController do
 
     context "when is successfully updated" do
       it "renders the json representation for the updated client" do
-        client_response = json_response
+        client_response = json_response[:client]
         expect(client_response[:name]).to eq('new_name')
       end
 

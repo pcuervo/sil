@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
     end
 
     it "returns client_contact info in JSON format" do
-      client_contact_response = json_response
+      client_contact_response = json_response[:client_contact]
       expect(client_contact_response[:first_name]).to eq(@client_contact.first_name)
     end
 
@@ -22,8 +22,8 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
     end
 
     it "returns 5 client_contact records from database" do
-      client_contact_response = json_response
-      expect(client_contact_response[:client_contacts].size).to eq(5)
+      client_contact_response = json_response[:client_contacts]
+      expect(client_contact_response.size).to eq(5)
     end
 
     it { should respond_with 200 }
@@ -40,7 +40,7 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
       end
 
       it "return a JSON representation of the created client contact" do
-        client_contact_response = json_response
+        client_contact_response = json_response[:client_contact]
         expect(client_contact_response[:first_name]).to eql @client_contact_attributes[:first_name]
       end
 
@@ -80,7 +80,7 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
       end
 
       it "should return a JSON representation of the updated client contact" do
-        client_contact_response = json_response
+        client_contact_response = json_response[:client_contact]
         expect(client_contact_response[:first_name]).to eql('Miguel')
         expect(client_contact_response[:last_name]).to eql('Cabral')
       end
