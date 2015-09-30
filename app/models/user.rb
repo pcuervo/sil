@@ -12,11 +12,12 @@ class User < ActiveRecord::Base
 
   has_many :inventory_items
   has_many :logs
-  has_many :projects
+  has_and_belongs_to_many :projects
 
   # AVAILABLE ROLES
   ADMIN = 1
   PM = 2
+  AE = 3
  	
  	def generate_authentication_token!
     begin
@@ -30,9 +31,13 @@ class User < ActiveRecord::Base
       "Admin"
     when PM
       "Project Manager"
+    when AE
+      "Account Executive"
     end
   end
 
-  scope :admin_users, -> { where(role: ADMIN) }
-  scope :pm_users, -> { where(role: PM) }
+  scope :admin_users, -> { where( role: ADMIN ) }
+  scope :pm_users, -> { where( role: PM ) }
+  scope :ae_users, -> { where( role: AE ) }
+  scope :pm_ae_users, -> { where('role = ? OR role = ?', PM, AE ) }
 end

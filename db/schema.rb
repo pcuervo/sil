@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917221218) do
+ActiveRecord::Schema.define(version: 20150930232931) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -88,12 +88,17 @@ ActiveRecord::Schema.define(version: 20150917221218) do
   create_table "projects", force: :cascade do |t|
     t.string   "name",       limit: 255, default: "empty"
     t.string   "litobel_id", limit: 255, default: "-"
-    t.integer  "user_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+  create_table "projects_users", id: false, force: :cascade do |t|
+    t.integer "user_id",    limit: 4, null: false
+    t.integer "project_id", limit: 4, null: false
+  end
+
+  add_index "projects_users", ["project_id", "user_id"], name: "index_projects_users_on_project_id_and_user_id", using: :btree
+  add_index "projects_users", ["user_id", "project_id"], name: "index_projects_users_on_user_id_and_project_id", using: :btree
 
   create_table "unit_items", force: :cascade do |t|
     t.string   "serial_number", limit: 255, default: " "
@@ -131,5 +136,4 @@ ActiveRecord::Schema.define(version: 20150917221218) do
   add_foreign_key "inventory_items", "projects"
   add_foreign_key "inventory_items", "users"
   add_foreign_key "logs", "users"
-  add_foreign_key "projects", "users"
 end

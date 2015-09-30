@@ -42,6 +42,7 @@ describe User do
   end
 
   it { should have_many(:inventory_items) }
+  it { should have_and_belong_to_many(:projects) }
   it { should have_many(:logs) }
 
 end

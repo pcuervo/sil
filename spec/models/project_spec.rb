@@ -13,10 +13,9 @@ RSpec.describe Project, type: :model do
   it { should validate_uniqueness_of(:litobel_id) }
 
   it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:user) }
   it { should validate_presence_of(:litobel_id) }
 
-  it { should belong_to(:user) }
+  it { should have_and_belong_to_many(:users) }
 
   it { should be_valid }
 
