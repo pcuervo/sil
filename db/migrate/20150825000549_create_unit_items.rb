@@ -4,10 +4,9 @@ class CreateUnitItems < ActiveRecord::Migration
       t.string :serial_number, default: " "
       t.string :brand, default: " "
       t.string :model, default: " "
-      t.integer :inventory_item_id
 
       t.timestamps null: false
     end
-    add_index :unit_items, :inventory_item_id
+
   end
 end

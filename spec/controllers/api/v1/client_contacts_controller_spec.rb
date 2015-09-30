@@ -64,7 +64,6 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
       it "renders the JSON errors that say that a client contact could not be created" do
         client_contact_response = json_response
         expect(client_contact_response[:errors][:first_name]).to include "can't be blank"
-        expect(client_contact_response[:errors][:email]).to include "can't be blank"
       end
 
       it { should respond_with 422 }

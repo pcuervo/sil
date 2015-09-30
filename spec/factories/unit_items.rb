@@ -3,6 +3,8 @@ FactoryGirl.define do
     name { FFaker::Product.product_name }
     description { FFaker::HipsterIpsum.paragraph }
     user
+    project
+    client
     serial_number { FFaker::IdentificationMX.curp }
     brand { FFaker::Product.brand }
     model { FFaker::Product.model }

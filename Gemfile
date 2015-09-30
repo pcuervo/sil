@@ -34,11 +34,11 @@ gem 'rack-cors', :require => 'rack/cors'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'mysql2'
 
 group :development do 
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  #gem 'sqlite3'
+  gem 'mysql2'
 end
 
 group :development, :test do

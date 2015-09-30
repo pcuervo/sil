@@ -12,7 +12,7 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
   def create
-    project = Project.new(project_params)
+    project = current_user.projects.build(project_params)
 
     if project.save
       render json: project, status: 201, location: [:api, project]
@@ -38,6 +38,14 @@ class Api::V1::ProjectsController < ApplicationController
     project.destroy
     head 204
   end 
+
+  def get_project_users
+    project = Project.find( params[:id] )
+    project_users = project.get_pm_and_ae
+
+    
+  end
+
 
   private
 

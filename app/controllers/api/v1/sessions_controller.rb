@@ -1,4 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
+  before_action :cors_preflight_check
+  after_action :cors_set_access_control_headers
 
   def create
     user_password = params[:session][:password]

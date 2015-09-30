@@ -55,7 +55,7 @@ describe Api::V1::UsersController do
       end
 
       it "renders the json errors when the role is invalid" do
-        @invalid_user_attributes = { email: "test@test.com", name: 'Mic', last_name: 'Cab', password: 'holama123', password_confirmation: 'holama123', role: 5 }
+        @invalid_user_attributes = { email: "test@test.com", first_name: 'Mic', last_name: 'Cab', password: 'holama123', password_confirmation: 'holama123', role: 5 }
         post :create, { user: @invalid_user_attributes }, format: :json
         user_response = json_response
         expect(user_response[:errors][:role]).to include "#{@invalid_user_attributes[:role]} is not a valid role"
@@ -65,11 +65,11 @@ describe Api::V1::UsersController do
         @invalid_user_attributes = { email: "test@test.com", last_name: 'Cab', password: 'holama123', password_confirmation: 'holama123', role: 2 }
         post :create, { user: @invalid_user_attributes }, format: :json
         user_response = json_response
-        expect(user_response[:errors][:name]).to include "can't be blank"
+        expect(user_response[:errors][:first_name]).to include "can't be blank"
       end
 
       it "renders the json errors when the last name is missing" do
-        @invalid_user_attributes = { email: "test@test.com", name: 'Mig', password: 'holama123', password_confirmation: 'holama123', role: 2 }
+        @invalid_user_attributes = { email: "test@test.com", first_name: 'Mig', password: 'holama123', password_confirmation: 'holama123', role: 2 }
         post :create, { user: @invalid_user_attributes }, format: :json
         user_response = json_response
         expect(user_response[:errors][:last_name]).to include "can't be blank"

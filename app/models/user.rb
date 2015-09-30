@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
 	validates :auth_token, uniqueness: true
   validates :role, inclusion: { in: [1, 2, 3], message: "%{value} is not a valid role" }
-  validates :name, :last_name, :email, :role, presence: true
+  validates :first_name, :last_name, :email, :role, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

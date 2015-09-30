@@ -24,7 +24,6 @@ class Api::V1::InventoryItemsController < ApplicationController
   private
 
     def inventory_item_params
-      puts params.to_yaml
       params.require(:inventory_item).permit(:name, :description, :project_id, :client_id, :status)
     end
 

@@ -11,122 +11,125 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929193331) do
+ActiveRecord::Schema.define(version: 20150917221218) do
 
   create_table "audits", force: :cascade do |t|
-    t.integer  "auditable_id"
-    t.string   "auditable_type"
-    t.integer  "associated_id"
-    t.string   "associated_type"
-    t.integer  "user_id"
-    t.string   "user_type"
-    t.string   "username"
-    t.string   "action"
-    t.text     "audited_changes"
-    t.integer  "version",         default: 0
-    t.string   "comment"
-    t.string   "remote_address"
-    t.string   "request_uuid"
+    t.integer  "auditable_id",    limit: 4
+    t.string   "auditable_type",  limit: 255
+    t.integer  "associated_id",   limit: 4
+    t.string   "associated_type", limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "user_type",       limit: 255
+    t.string   "username",        limit: 255
+    t.string   "action",          limit: 255
+    t.text     "audited_changes", limit: 65535
+    t.integer  "version",         limit: 4,     default: 0
+    t.string   "comment",         limit: 255
+    t.string   "remote_address",  limit: 255
+    t.string   "request_uuid",    limit: 255
     t.datetime "created_at"
   end
 
-  add_index "audits", ["associated_id", "associated_type"], name: "associated_index"
-  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index"
-  add_index "audits", ["created_at"], name: "index_audits_on_created_at"
-  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid"
-  add_index "audits", ["user_id", "user_type"], name: "user_index"
+  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
+  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
+  add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
+  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid", using: :btree
+  add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
   create_table "client_contacts", force: :cascade do |t|
-    t.string   "first_name",    default: "",  null: false
-    t.string   "phone"
-    t.string   "phone_ext",     default: "-"
-    t.string   "email",         default: "",  null: false
-    t.string   "business_unit"
-    t.integer  "client_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "last_name",     default: ""
+    t.string   "first_name",    limit: 255
+    t.string   "last_name",     limit: 255
+    t.string   "phone",         limit: 255
+    t.string   "phone_ext",     limit: 255, default: "-"
+    t.string   "email",         limit: 255, default: "no@email.com"
+    t.string   "business_unit", limit: 255, default: "-"
+    t.integer  "client_id",     limit: 4
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
-  add_index "client_contacts", ["client_id"], name: "index_client_contacts_on_client_id"
+  add_index "client_contacts", ["client_id"], name: "index_client_contacts_on_client_id", using: :btree
 
   create_table "clients", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "inventory_items", force: :cascade do |t|
-    t.string   "name",         default: " "
-    t.text     "description",  default: " "
-    t.string   "image_url",    default: "default_item.png"
-    t.string   "status",       default: "active"
-    t.integer  "user_id"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "actable_id"
-    t.string   "actable_type"
-    t.integer  "project_id"
-    t.integer  "client_id"
-    t.string   "item_type",    default: "otro"
-    t.string   "code_url",     default: "no_code.png"
+    t.string   "name",         limit: 255,   default: " "
+    t.text     "description",  limit: 65535
+    t.string   "image_url",    limit: 255,   default: "default_item.png"
+    t.string   "status",       limit: 255,   default: "inactive"
+    t.integer  "user_id",      limit: 4
+    t.integer  "project_id",   limit: 4
+    t.integer  "client_id",    limit: 4
+    t.integer  "actable_id",   limit: 4
+    t.string   "actable_type", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "inventory_items", ["client_id"], name: "index_inventory_items_on_client_id"
-  add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id"
-  add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id"
+  add_index "inventory_items", ["client_id"], name: "index_inventory_items_on_client_id", using: :btree
+  add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id", using: :btree
+  add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id", using: :btree
 
   create_table "logs", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "sys_module"
-    t.string   "action"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "actor_id"
+    t.integer  "user_id",    limit: 4
+    t.string   "sys_module", limit: 255
+    t.string   "action",     limit: 255
+    t.integer  "actor_id",   limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "logs", ["user_id"], name: "index_logs_on_user_id"
+  add_index "logs", ["user_id"], name: "index_logs_on_user_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",       default: "Empty project"
-    t.string   "litobel_id", default: "-"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.integer  "user_id",    default: 1
+    t.string   "name",       limit: 255, default: "empty"
+    t.string   "litobel_id", limit: 255, default: "-"
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "unit_items", force: :cascade do |t|
-    t.string   "serial_number", default: " "
-    t.string   "brand",         default: " "
-    t.string   "model",         default: " "
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "serial_number", limit: 255, default: " "
+    t.string   "brand",         limit: 255, default: " "
+    t.string   "model",         limit: 255, default: " "
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",                 null: false
-    t.string   "encrypted_password",     default: "",                 null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,                  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.string   "auth_token",             default: ""
-    t.integer  "role",                   default: 1,                  null: false
-    t.string   "last_name"
-    t.string   "name"
-    t.string   "image_url",              default: "default_user.png"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "auth_token",             limit: 255, default: ""
+    t.integer  "role",                   limit: 4,   default: 2,  null: false
+    t.string   "first_name",             limit: 255
+    t.string   "last_name",              limit: 255
   end
 
-  add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "client_contacts", "clients"
+  add_foreign_key "inventory_items", "clients"
+  add_foreign_key "inventory_items", "projects"
+  add_foreign_key "inventory_items", "users"
+  add_foreign_key "logs", "users"
+  add_foreign_key "projects", "users"
 end
