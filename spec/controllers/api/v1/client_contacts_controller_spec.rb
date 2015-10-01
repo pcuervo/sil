@@ -12,11 +12,6 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
       expect(client_contact_response[:first_name]).to eq(@client_contact.first_name)
     end
 
-    it "has the client as an embeded object" do
-      client_response = json_response[:client_contact]
-      expect(client_response[:client][:name]).to eql @client_contact.client.name
-    end
-
     it { should respond_with 200 }
   end
 
@@ -29,13 +24,6 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
     it "returns 5 client_contact records from database" do
       client_contact_response = json_response[:client_contacts]
       expect(client_contact_response.size).to eq(5)
-    end
-
-    it "returns the client object into each client_contact" do
-      clients_contact_response = json_response[:client_contacts]
-      clients_contact_response.each do |clients_contact_response|
-        expect(clients_contact_response[:client]).to be_present
-      end
     end
 
     it { should respond_with 200 }

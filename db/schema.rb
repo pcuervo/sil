@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930232931) do
+ActiveRecord::Schema.define(version: 20151001225705) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -54,7 +54,10 @@ ActiveRecord::Schema.define(version: 20150930232931) do
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "project_id", limit: 4
   end
+
+  add_index "clients", ["project_id"], name: "index_clients_on_project_id", using: :btree
 
   create_table "inventory_items", force: :cascade do |t|
     t.string   "name",         limit: 255,   default: " "
@@ -132,6 +135,7 @@ ActiveRecord::Schema.define(version: 20150930232931) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "client_contacts", "clients"
+  add_foreign_key "clients", "projects"
   add_foreign_key "inventory_items", "clients"
   add_foreign_key "inventory_items", "projects"
   add_foreign_key "inventory_items", "users"

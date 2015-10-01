@@ -2,7 +2,9 @@ class Api::V1::ClientContactsController < ApplicationController
   respond_to :json
 
   def show
-    respond_with ClientContact.find(params[:id])
+    c = ClientContact.find(params[:id])
+    respond_with c
+    #respond_with ClientContact.find(params[:id])
   end
 
   def index

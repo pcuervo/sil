@@ -13,14 +13,15 @@ Sil::Application.routes.draw do
       end
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
-      resources :projects, :only => [:index, :show, :create, :update, :destroy]
+      resources :projects, :only => [:index, :show, :create, :update, :destroy] do
+        collection do 
+          get 'get_project_users/:id', :action => 'get_project_users'
+        end
+      end
       resources :clients, :only => [:show, :index, :create, :update, :destroy]
       resources :client_contacts, :only => [:show, :index, :create, :update, :destroy]
-      #  do
-      #   collection do 
-      #     get 'show_unit_item/:id', :action => 'show_unit_item'
-      #   end
-      # end
+      
+
 
     end
   end
@@ -34,7 +35,11 @@ Sil::Application.routes.draw do
       
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
-      resources :projects, :only => [:index, :show, :create, :update, :destroy]
+      resources :projects, :only => [:index, :show, :create, :update, :destroy] do
+        collection do 
+          get 'get_project_users/:id', :action => 'get_project_users'
+        end
+      end
       resources :clients, :only => [:show, :index, :create, :update, :destroy]
       resources :client_contacts, :only => [:show, :index, :create, :update, :destroy]
     end

@@ -41,9 +41,15 @@ class Api::V1::ProjectsController < ApplicationController
 
   def get_project_users
     project = Project.find( params[:id] )
-    project_users = project.get_pm_and_ae
+    project_users = project.users(:id)
 
-    
+    users = []
+    project_users.each do |pu| 
+      user_obj = { :id => pu.id, :name => pu.first_name + ' ' + pu.last_name, :role => pu.role }
+      users.push( user_obj )
+    end
+
+    render json: users, status: 200, location: [:api, project]
   end
 
 

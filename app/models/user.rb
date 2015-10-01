@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   before_create :generate_authentication_token!
 
 	validates :auth_token, uniqueness: true
-  validates :role, inclusion: { in: [1, 2, 3], message: "%{value} is not a valid role" }
+  validates :role, inclusion: { in: [1, 2, 3, 4], message: "%{value} is not a valid role" }
   validates :first_name, :last_name, :email, :role, presence: true
 
   # Include default devise modules. Others available are:

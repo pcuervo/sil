@@ -126,4 +126,25 @@ describe Api::V1::ProjectsController do
 
     it { should respond_with 204 }
   end
+
+  describe "GET #get_project_users" do
+    before(:each) do
+      project = FactoryGirl.create :project
+
+      3.times do
+        user = FactoryGirl.create :user
+        project.users << user
+      end
+
+      get :get_project_users, id: project.id
+    end
+
+    it "returns the users of the given project in JSON format" do
+      project_users_response = json_response[:projects]
+      expect(project_users_response.size).to eq 3
+    end
+
+    it { should respond_with 200 }
+  end
+
 end

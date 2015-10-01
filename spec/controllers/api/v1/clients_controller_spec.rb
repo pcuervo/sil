@@ -12,6 +12,11 @@ describe Api::V1::ClientsController do
       expect(client_response[:name]).to eql @client.name
     end
 
+    it "has the client_contacts ids as an embeded object" do
+      client_response = json_response[:client]
+      expect(client_response[:client_contact_ids]).to eql []
+    end
+
     it { should respond_with 200 }
   end
 
