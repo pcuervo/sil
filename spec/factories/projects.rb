@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :project do
     name { 'Project_' + random_number }
     litobel_id { FFaker::IdentificationMX.rfc }
+    client
   end
 end
 

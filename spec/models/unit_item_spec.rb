@@ -12,11 +12,6 @@ describe UnitItem do
   it { should respond_to(:serial_number) }
   it { should respond_to(:brand) }
   it { should respond_to(:model) }
-
-  # Required relations
-  it { should validate_presence_of(:user)}
-  it { should validate_presence_of(:project) }
-  it { should validate_presence_of(:client) }
   
   it { should validate_uniqueness_of :serial_number }
 

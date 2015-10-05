@@ -12,7 +12,16 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
   def create
+    client = Client.find_by_id(params[:client_id])
+
+    if client.nil? 
+      errors = { :client => "not found" }
+      render json: { errors: errors }, status: 422
+      return
+    end
+
     project = current_user.projects.build(project_params)
+    project.client = client
 
     if project.save
       render json: project, status: 201, location: [:api, project]
@@ -41,7 +50,7 @@ class Api::V1::ProjectsController < ApplicationController
 
   def get_project_users
     project = Project.find( params[:id] )
-    project_users = project.users(:id)
+    project_users = project.users
 
     users = []
     project_users.each do |pu| 
@@ -49,7 +58,16 @@ class Api::V1::ProjectsController < ApplicationController
       users.push( user_obj )
     end
 
-    render json: users, status: 200, location: [:api, project]
+    render json: { :users => users }, status: 200, location: [:api, project]
+  end
+
+  def get_project_client
+    project = Project.find( params[:id] )
+    client = project.client
+    client_contact = client.client_contacts.first
+
+    client_obj = { :id => client.id, :name => client.name, :contact_name => client_contact.first_name + ' ' + client_contact.last_name }
+    render json: { :client => client_obj }, status: 200, location: [:api, project]
   end
 
 

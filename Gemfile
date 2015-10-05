@@ -34,6 +34,7 @@ gem 'rack-cors', :require => 'rack/cors'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem "paperclip", "~> 4.3"
 
 group :development do 
   # Use sqlite3 as the database for Active Record

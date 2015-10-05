@@ -4,6 +4,5 @@ FactoryGirl.define do
     description { FFaker::HipsterIpsum.paragraph } 
     user
     project
-    client
   end
 end

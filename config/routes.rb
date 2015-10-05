@@ -10,19 +10,20 @@ Sil::Application.routes.draw do
       # List of resources 
       resources :users, :only => [:index, :show, :create, :update, :destroy] do
         resources :inventory_items, :only => [:create]
+        resources :unit_items, :only => [:create]
       end
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
+      resources :unit_items, :only => [:index, :show]
       resources :projects, :only => [:index, :show, :create, :update, :destroy] do
         collection do 
           get 'get_project_users/:id', :action => 'get_project_users'
+          get 'get_project_client/:id', :action => 'get_project_users'
         end
       end
       resources :clients, :only => [:show, :index, :create, :update, :destroy]
       resources :client_contacts, :only => [:show, :index, :create, :update, :destroy]
       
-
-
     end
   end
 
@@ -31,13 +32,16 @@ Sil::Application.routes.draw do
       
       resources :users, :only => [:index, :show, :create, :update, :destroy] do
         resources :inventory_items, :only => [:create]
+        resources :unit_items, :only => [:create]
       end
       
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
+      resources :unit_items, :only => [:index, :show]
       resources :projects, :only => [:index, :show, :create, :update, :destroy] do
         collection do 
           get 'get_project_users/:id', :action => 'get_project_users'
+          get 'get_project_client/:id', :action => 'get_project_client'
         end
       end
       resources :clients, :only => [:show, :index, :create, :update, :destroy]

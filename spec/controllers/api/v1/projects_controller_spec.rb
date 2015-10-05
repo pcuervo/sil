@@ -34,9 +34,10 @@ describe Api::V1::ProjectsController do
     context "when project is succesfully created" do
       before(:each) do
         user = FactoryGirl.create :user
+        client = FactoryGirl.create :client
         @project_attributes = FactoryGirl.attributes_for :project
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id,  project: @project_attributes }
+        post :create, { user_id: user.id, client_id: client.id,  project: @project_attributes }
       end
 
       it "renders the project record just created in JSON format" do
@@ -53,7 +54,6 @@ describe Api::V1::ProjectsController do
         @invalid_project_attributes = { name: "Proyecto Inválido" }
         api_authorization_header user.auth_token
         post :create, { user_id: user.id, project: @invalid_project_attributes }
-        post :create, { user_id: user.id, project: @invalid_project_attributes }
       end
 
       it "renders an errors json" do 
@@ -61,14 +61,9 @@ describe Api::V1::ProjectsController do
         expect(project_response).to have_key(:errors)
       end
 
-      it "renders the json errors when litobel_id has already been taken" do
+      it "renders the json errors when there is no client present" do
         project_response = json_response
-        expect(project_response[:errors][:litobel_id]).to include "has already been taken"
-      end
-
-      it "renders the json errors when title has already been taken" do
-        project_response = json_response
-        expect(project_response[:errors][:name]).to include "has already been taken"
+        expect(project_response[:errors][:client]).to include "not found"
       end
 
       it { should respond_with 422 }
@@ -140,8 +135,26 @@ describe Api::V1::ProjectsController do
     end
 
     it "returns the users of the given project in JSON format" do
-      project_users_response = json_response[:projects]
+      project_users_response = json_response[:users]
       expect(project_users_response.size).to eq 3
+    end
+
+    it { should respond_with 200 }
+  end
+
+  describe "GET #get_project_client" do
+    before(:each) do
+      project = FactoryGirl.create :project
+      @client = project.client
+      client_contact = FactoryGirl.create :client_contact
+      @client.client_contacts << client_contact
+
+      get :get_project_client, id: project.id
+    end
+
+    it "returns the client and client_contact of the given project in JSON format" do
+      project_client_response = json_response[:client]
+      expect(project_client_response[:name]).to eq @client.name
     end
 
     it { should respond_with 200 }

@@ -11,8 +11,13 @@ class Api::V1::InventoryItemsController < ApplicationController
   end
 
   def create
-    #inventory_item = InventoryItem.new(inventory_item_params)
+    # Paperclip adaptor 
+    item_img = Paperclip.io_adapters.for(params[:item_img])
+    item_img.original_filename = params[:name] + '.' + params[:item_img_ext]
+
     inventory_item = current_user.inventory_items.build(inventory_item_params)
+    inventory_item.item_img = item_img
+
 
     if inventory_item.save
       render json: inventory_item, status: 201, location: [:api, inventory_item]
@@ -24,7 +29,7 @@ class Api::V1::InventoryItemsController < ApplicationController
   private
 
     def inventory_item_params
-      params.require(:inventory_item).permit(:name, :description, :project_id, :client_id, :status)
+      params.require(:inventory_item).permit(:name, :description, :project_id, :status, :item_img)
     end
 
 end

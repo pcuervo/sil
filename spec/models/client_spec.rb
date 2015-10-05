@@ -8,7 +8,6 @@ RSpec.describe Client, type: :model do
   it { should validate_uniqueness_of :name }
 
   it { should have_many :client_contacts }
-  it { should have_many :projects }
 
   describe "#client_contacts association" do
     before do

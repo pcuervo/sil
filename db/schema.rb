@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001225705) do
+ActiveRecord::Schema.define(version: 20151002201456) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -54,26 +54,26 @@ ActiveRecord::Schema.define(version: 20151001225705) do
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "project_id", limit: 4
   end
-
-  add_index "clients", ["project_id"], name: "index_clients_on_project_id", using: :btree
 
   create_table "inventory_items", force: :cascade do |t|
-    t.string   "name",         limit: 255,   default: " "
-    t.text     "description",  limit: 65535
-    t.string   "image_url",    limit: 255,   default: "default_item.png"
-    t.string   "status",       limit: 255,   default: "inactive"
-    t.integer  "user_id",      limit: 4
-    t.integer  "project_id",   limit: 4
-    t.integer  "client_id",    limit: 4
-    t.integer  "actable_id",   limit: 4
-    t.string   "actable_type", limit: 255
+    t.string   "name",                  limit: 255,   default: " "
+    t.text     "description",           limit: 65535
+    t.string   "image_url",             limit: 255,   default: "default_item.png"
+    t.string   "status",                limit: 255,   default: "inactive"
+    t.integer  "user_id",               limit: 4
+    t.integer  "project_id",            limit: 4
+    t.integer  "actable_id",            limit: 4
+    t.string   "actable_type",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "code_url",              limit: 255,   default: "nocode.png"
+    t.string   "item_img_file_name",    limit: 255
+    t.string   "item_img_content_type", limit: 255
+    t.integer  "item_img_file_size",    limit: 4
+    t.datetime "item_img_updated_at"
   end
 
-  add_index "inventory_items", ["client_id"], name: "index_inventory_items_on_client_id", using: :btree
   add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id", using: :btree
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id", using: :btree
 
@@ -93,7 +93,10 @@ ActiveRecord::Schema.define(version: 20151001225705) do
     t.string   "litobel_id", limit: 255, default: "-"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "client_id",  limit: 4
   end
+
+  add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
 
   create_table "projects_users", id: false, force: :cascade do |t|
     t.integer "user_id",    limit: 4, null: false
@@ -128,6 +131,10 @@ ActiveRecord::Schema.define(version: 20151001225705) do
     t.integer  "role",                   limit: 4,   default: 2,  null: false
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
+    t.string   "avatar_file_name",       limit: 255
+    t.string   "avatar_content_type",    limit: 255
+    t.integer  "avatar_file_size",       limit: 4
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true, using: :btree
@@ -135,9 +142,8 @@ ActiveRecord::Schema.define(version: 20151001225705) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "client_contacts", "clients"
-  add_foreign_key "clients", "projects"
-  add_foreign_key "inventory_items", "clients"
   add_foreign_key "inventory_items", "projects"
   add_foreign_key "inventory_items", "users"
   add_foreign_key "logs", "users"
+  add_foreign_key "projects", "clients"
 end
