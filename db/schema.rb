@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002201456) do
+ActiveRecord::Schema.define(version: 20151005173450) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -76,6 +76,21 @@ ActiveRecord::Schema.define(version: 20151002201456) do
 
   add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id", using: :btree
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id", using: :btree
+
+  create_table "inventory_transactions", force: :cascade do |t|
+    t.date     "entry_date"
+    t.integer  "inventory_item_id",        limit: 4
+    t.string   "concept",                  limit: 255
+    t.string   "storage_type",             limit: 255,   default: "temporal"
+    t.date     "estimated_issue_date"
+    t.text     "additional_comments",      limit: 65535
+    t.string   "delivery_company",         limit: 255
+    t.string   "delivery_company_contact", limit: 255,   default: "-"
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+  end
+
+  add_index "inventory_transactions", ["inventory_item_id"], name: "index_inventory_transactions_on_inventory_item_id", using: :btree
 
   create_table "logs", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -144,6 +159,7 @@ ActiveRecord::Schema.define(version: 20151002201456) do
   add_foreign_key "client_contacts", "clients"
   add_foreign_key "inventory_items", "projects"
   add_foreign_key "inventory_items", "users"
+  add_foreign_key "inventory_transactions", "inventory_items"
   add_foreign_key "logs", "users"
   add_foreign_key "projects", "clients"
 end
