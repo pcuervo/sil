@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20151005173450) do
   add_index "inventory_items", ["user_id"], name: "index_inventory_items_on_user_id", using: :btree
 
   create_table "inventory_transactions", force: :cascade do |t|
-    t.date     "entry_date"
+    t.datetime "entry_date"
     t.integer  "inventory_item_id",        limit: 4
     t.string   "concept",                  limit: 255
     t.string   "storage_type",             limit: 255,   default: "temporal"

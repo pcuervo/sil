@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  actable
   before_create :generate_authentication_token!
 
 	validates :auth_token, uniqueness: true
@@ -16,8 +17,9 @@ class User < ActiveRecord::Base
 
   # AVAILABLE ROLES
   ADMIN = 1
-  PM = 2
-  AE = 3
+  PROJECT_MANAGER = 2
+  ACCOUNT_EXECUTIVE = 3
+  CLIENT = 4
  	
  	def generate_authentication_token!
     begin
@@ -29,15 +31,15 @@ class User < ActiveRecord::Base
     case self.role
     when ADMIN
       "Admin"
-    when PM
+    when PROJECT_MANAGER
       "Project Manager"
-    when AE
+    when ACCOUNT_EXECUTIVE
       "Account Executive"
     end
   end
 
   scope :admin_users, -> { where( role: ADMIN ) }
-  scope :pm_users, -> { where( role: PM ) }
-  scope :ae_users, -> { where( role: AE ) }
-  scope :pm_ae_users, -> { where('role = ? OR role = ?', PM, AE ) }
+  scope :pm_users, -> { where( role: PROJECT_MANAGER ) }
+  scope :ae_users, -> { where( role: ACCOUNT_EXECUTIVE ) }
+  scope :pm_ae_users, -> { where('role = ? OR role = ?', PROJECT_MANAGER, ACCOUNT_EXECUTIVE ) }
 end

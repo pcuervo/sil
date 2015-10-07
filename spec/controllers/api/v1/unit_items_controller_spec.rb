@@ -50,12 +50,19 @@ describe Api::V1::UnitItemsController do
         @unit_item_attributes[:project_id] = project.id
 
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id, unit_item: @unit_item_attributes }
+        post :create, { user_id: user.id, unit_item: @unit_item_attributes, :entry_date => Time.now, :storage_type => 'Permanente', :delivery_company => 'DHL' }
       end
 
       it "renders the json representation for the inventory item just created" do
         unit_item_response = json_response[:unit_item]
         expect(unit_item_response[:name]).to eql @unit_item_attributes[:name]
+      end
+
+      it "should record the transaction in database" do
+        unit_item_response = json_response[:unit_item]
+        inv_item = InventoryItem.find_by_actable_id(unit_item_response[:id])
+        inv_transaction = InventoryTransaction.find_by_inventory_item_id(inv_item.id)
+        expect(inv_transaction.to_json.size).to be >= 1
       end
 
       it { should respond_with 201 }

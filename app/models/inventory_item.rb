@@ -4,6 +4,7 @@ class InventoryItem < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :project
+  has_many :inventory_transaction
 
   validates :name, :status, :user, :project, presence: true
 

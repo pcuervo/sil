@@ -1,7 +1,7 @@
 class InventoryTransactions < ActiveRecord::Migration
   def change
     create_table :inventory_transactions do |t|
-      t.date        :entry_date
+      t.datetime    :entry_date
       t.references  :inventory_item,            index: true
       t.string      :concept                    
       t.string      :storage_type,              default: "temporal"
