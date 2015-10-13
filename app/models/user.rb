@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   ADMIN = 1
   PROJECT_MANAGER = 2
   ACCOUNT_EXECUTIVE = 3
-  CLIENT = 4
  	
  	def generate_authentication_token!
     begin

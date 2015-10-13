@@ -11,6 +11,10 @@ Sil::Application.routes.draw do
       resources :users, :only => [:index, :show, :create, :update, :destroy] do
         resources :inventory_items, :only => [:create]
         resources :unit_items, :only => [:create]
+        collection do 
+          get 'get_project_managers/', :action => 'get_project_managers'
+          get 'get_account_executives/', :action => 'get_account_executives'
+        end
       end
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
@@ -33,6 +37,10 @@ Sil::Application.routes.draw do
       resources :users, :only => [:index, :show, :create, :update, :destroy] do
         resources :inventory_items, :only => [:create]
         resources :unit_items, :only => [:create]
+        collection do 
+          get 'get_project_managers/', :action => 'get_project_managers'
+          get 'get_account_executives/', :action => 'get_account_executives'
+        end
       end
       
       resources :sessions, :only => [:create, :destroy]

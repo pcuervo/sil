@@ -39,6 +39,14 @@ class Api::V1::UsersController < ApplicationController
 	  head 204
 	end
 
+	def get_project_managers
+    respond_with User.pm_users
+  end
+
+  def get_account_executives
+    respond_with User.ae_users
+  end
+
 	private	
 
 		def user_params

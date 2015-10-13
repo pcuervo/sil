@@ -7,7 +7,7 @@ class Api::V1::ClientsController < ApplicationController
   end
 
   def index
-    respond_with Client.all
+    respond_with Client.order(created_at: :desc).all
   end
 
   def create

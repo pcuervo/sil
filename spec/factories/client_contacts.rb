@@ -7,6 +7,9 @@ FactoryGirl.define do
     email { FFaker::Internet.email }
     business_unit { FFaker::Company.position }
     client 
+    role 4
+    password "holama123"
+    password_confirmation "holama123"
   end
 
 end

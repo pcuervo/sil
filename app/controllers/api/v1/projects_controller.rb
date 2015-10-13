@@ -4,7 +4,7 @@ class Api::V1::ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with Project.all
+    respond_with Project.order(created_at: :desc).all
   end
   
   def show
@@ -13,6 +13,8 @@ class Api::V1::ProjectsController < ApplicationController
 
   def create
     client = Client.find_by_id(params[:client_id])
+    pm = User.find(params[:pm_id])
+    ae = User.find(params[:ae_id])
 
     if client.nil? 
       errors = { :client => "not found" }
@@ -20,10 +22,13 @@ class Api::V1::ProjectsController < ApplicationController
       return
     end
 
-    project = current_user.projects.build(project_params)
+    #project = current_user.projects.build(project_params)
+    project = Project.new(project_params)
     project.client = client
 
     if project.save
+      AccountExecutiveProject.create(:user_id => ae.id, :project_id => project.id)
+      ManagerProject.create(:user_id => pm.id, :project_id => project.id)
       render json: project, status: 201, location: [:api, project]
       return
     end
@@ -65,6 +70,7 @@ class Api::V1::ProjectsController < ApplicationController
     project = Project.find( params[:id] )
     client = project.client
     client_contact = client.client_contacts.first
+
 
     client_obj = { :id => client.id, :name => client.name, :contact_name => client_contact.first_name + ' ' + client_contact.last_name }
     render json: { :client => client_obj }, status: 200, location: [:api, project]

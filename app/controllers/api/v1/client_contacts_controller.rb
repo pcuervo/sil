@@ -12,8 +12,10 @@ class Api::V1::ClientContactsController < ApplicationController
   end
 
   def create
-    client = Client.find(params[:client_id])
-    client_contact = client.client_contacts.build(client_contact_params)
+    # puts params[:client_contact][:client_id].to_yaml
+    # client = Client.find(params[:client_id])
+    # client_contact = client.client_contacts.build(client_contact_params)
+    client_contact = ClientContact.new(client_contact_params)
 
     if client_contact.save
       log_action( current_user.id, 'ClientContact', 'Created client contact: "' + client_contact.first_name + ' ' + client_contact.last_name, client_contact.id )
@@ -46,6 +48,6 @@ class Api::V1::ClientContactsController < ApplicationController
   private 
 
   def client_contact_params
-    params.require(:client_contact).permit(:first_name, :last_name, :phone, :phone_ext, :email, :business_unit, :client_id)
+    params.require(:client_contact).permit(:first_name, :last_name, :password, :password_confirmation, :phone, :phone_ext, :email, :business_unit, :client_id)
   end
 end
