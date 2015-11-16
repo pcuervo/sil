@@ -35,11 +35,13 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
         user = FactoryGirl.create :user
         client = FactoryGirl.create :client
         @client_contact_attributes = FactoryGirl.attributes_for :client_contact
+        @client_contact_attributes[:client_id] = client.id
         api_authorization_header user.auth_token
-        post :create, { client_id: client.id, client_contact: @client_contact_attributes }
+        post :create, { client_contact: @client_contact_attributes }
       end
 
       it "return a JSON representation of the created client contact" do
+        puts json_response
         client_contact_response = json_response[:client_contact]
         expect(client_contact_response[:first_name]).to eql @client_contact_attributes[:first_name]
       end

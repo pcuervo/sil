@@ -4,7 +4,7 @@ class Api::V1::ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with Project.order(created_at: :desc).all
+    respond_with Project.all
   end
   
   def show
@@ -12,23 +12,27 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
   def create
-    client = Client.find_by_id(params[:client_id])
-    pm = User.find(params[:pm_id])
-    ae = User.find(params[:ae_id])
+    client_contact = User.find_by_actable_id(params[:client_contact_id])
+    project_manager = User.find_by_id(params[:pm_id])
+    account_executive = User.find_by_id(params[:ae_id])
 
-    if client.nil? 
-      errors = { :client => "not found" }
-      render json: { errors: errors }, status: 422
+    if client_contact.nil?
+      render json: { errors: "No se encontró la información de contacto del cliente." }, status: 422
       return
     end
 
-    #project = current_user.projects.build(project_params)
+    if project_manager.nil? or account_executive.nil?
+      render json: { errors: "No se encontró la información del Project Manager o Ejecutivo de Cuenta." }, status: 422
+      return
+    end
+
     project = Project.new(project_params)
-    project.client = client
 
     if project.save
-      AccountExecutiveProject.create(:user_id => ae.id, :project_id => project.id)
-      ManagerProject.create(:user_id => pm.id, :project_id => project.id)
+      
+      project.users << project_manager
+      project.users << account_executive
+      project.users << client_contact
       render json: project, status: 201, location: [:api, project]
       return
     end
@@ -80,6 +84,6 @@ class Api::V1::ProjectsController < ApplicationController
   private
 
     def project_params
-      params.require(:project).permit(:name, :litobel_id, :user_id)
+      params.require(:project).permit(:name, :litobel_id, :user_id, :client_id)
     end
 end

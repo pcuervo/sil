@@ -12,7 +12,10 @@ describe UnitItem do
   it { should respond_to(:serial_number) }
   it { should respond_to(:brand) }
   it { should respond_to(:model) }
-  
+  it { should respond_to(:item_type) }
+  it { should respond_to(:barcode) }
+
   it { should validate_uniqueness_of :serial_number }
+  it { should validate_uniqueness_of :barcode }
 
 end

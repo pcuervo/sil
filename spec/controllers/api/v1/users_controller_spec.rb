@@ -55,7 +55,7 @@ describe Api::V1::UsersController do
       end
 
       it "renders the json errors when the role is invalid" do
-        @invalid_user_attributes = { email: "test@test.com", first_name: 'Mic', last_name: 'Cab', password: 'holama123', password_confirmation: 'holama123', role: 5 }
+        @invalid_user_attributes = { email: "test@test.com", first_name: 'Mic', last_name: 'Cab', password: 'holama123', password_confirmation: 'holama123', role: 8 }
         post :create, { user: @invalid_user_attributes }, format: :json
         user_response = json_response
         expect(user_response[:errors][:role]).to include "#{@invalid_user_attributes[:role]} is not a valid role"

@@ -35,9 +35,16 @@ describe Api::V1::ProjectsController do
       before(:each) do
         user = FactoryGirl.create :user
         client = FactoryGirl.create :client
+        client_contact = FactoryGirl.create :client_contact
+
+        pm = FactoryGirl.create :user
+        pm.role = User::PROJECT_MANAGER
+        ae = FactoryGirl.create :user
+        ae.role = User::ACCOUNT_EXECUTIVE
         @project_attributes = FactoryGirl.attributes_for :project
+        @project_attributes[:client_id] = client.id
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id, client_id: client.id,  project: @project_attributes }
+        post :create, { user_id: user.id, client_contact_id: client_contact.id, pm_id: pm.id, ae_id: ae.id,  project: @project_attributes }
       end
 
       it "renders the project record just created in JSON format" do
@@ -51,9 +58,14 @@ describe Api::V1::ProjectsController do
     context "when project is not created" do
       before(:each) do
         user = FactoryGirl.create :user
+        pm = FactoryGirl.create :user
+        pm.role = User::PROJECT_MANAGER
+        ae = FactoryGirl.create :user
+        ae.role = User::ACCOUNT_EXECUTIVE
         @invalid_project_attributes = { name: "Proyecto Inválido" }
+
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id, project: @invalid_project_attributes }
+        post :create, { user_id: user.id, pm_id: pm.id, ae_id: ae.id, project: @invalid_project_attributes }
       end
 
       it "renders an errors json" do 
@@ -63,7 +75,7 @@ describe Api::V1::ProjectsController do
 
       it "renders the json errors when there is no client present" do
         project_response = json_response
-        expect(project_response[:errors][:client]).to include "not found"
+        expect(project_response[:errors][:client]).to include "can't be blank"
       end
 
       it { should respond_with 422 }

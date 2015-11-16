@@ -5,8 +5,10 @@ FactoryGirl.define do
     user
     project
     serial_number { FFaker::IdentificationMX.curp }
+    barcode { FFaker::Vehicle.vin }
     brand { FFaker::Product.brand }
     model { FFaker::Product.model }
+    item_type 'Desktop'
   end
 
 end

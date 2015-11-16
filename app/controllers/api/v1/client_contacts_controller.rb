@@ -2,6 +2,7 @@ class Api::V1::ClientContactsController < ApplicationController
   respond_to :json
 
   def show
+    puts params.to_yaml
     c = ClientContact.find(params[:id])
     respond_with c
     #respond_with ClientContact.find(params[:id])
@@ -12,10 +13,9 @@ class Api::V1::ClientContactsController < ApplicationController
   end
 
   def create
-    # puts params[:client_contact][:client_id].to_yaml
-    # client = Client.find(params[:client_id])
-    # client_contact = client.client_contacts.build(client_contact_params)
+
     client_contact = ClientContact.new(client_contact_params)
+    client_contact.role = User::CLIENT
 
     if client_contact.save
       log_action( current_user.id, 'ClientContact', 'Created client contact: "' + client_contact.first_name + ' ' + client_contact.last_name, client_contact.id )
@@ -24,10 +24,12 @@ class Api::V1::ClientContactsController < ApplicationController
     end
 
     render json: { errors: client_contact.errors }, status: 422
+    
   end
 
   def update
     client_contact = ClientContact.find(params[:id])
+    client_contact.role = 4
 
     if client_contact.update(client_contact_params)
       log_action( current_user.id, 'ClientContact', 'Updated client contact: "' + client_contact.first_name + ' ' + client_contact.last_name, client_contact.id )
@@ -43,6 +45,12 @@ class Api::V1::ClientContactsController < ApplicationController
     log_action( current_user.id, 'ClientContact', 'Deleted client contact: "' + client_contact.first_name + ' ' + client_contact.last_name, client_contact.id )
     client_contact.destroy
     head 204
+  end
+
+  def get_contacts_by_client
+    client = Client.find( params[:id] )
+    client_contacts = ClientContact.where('client_id = ?', client.id)
+    render json: client_contacts, status: 201, location: [:api, client_contact] 
   end
 
   private 

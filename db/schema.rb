@@ -11,12 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151012225546) do
-
-  create_table "account_executives_projects", id: false, force: :cascade do |t|
-    t.integer "user_id",    limit: 4
-    t.integer "project_id", limit: 4
-  end
+ActiveRecord::Schema.define(version: 20151116201456) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -40,6 +35,12 @@ ActiveRecord::Schema.define(version: 20151012225546) do
   add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
   add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid", using: :btree
   add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
+
+  create_table "bulk_items", force: :cascade do |t|
+    t.string   "quantity",   limit: 255, default: "0"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
 
   create_table "client_contacts", force: :cascade do |t|
     t.string   "phone",         limit: 255
@@ -69,11 +70,12 @@ ActiveRecord::Schema.define(version: 20151012225546) do
     t.string   "actable_type",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "code_url",              limit: 255,   default: "nocode.png"
     t.string   "item_img_file_name",    limit: 255
     t.string   "item_img_content_type", limit: 255
     t.integer  "item_img_file_size",    limit: 4
     t.datetime "item_img_updated_at"
+    t.string   "item_type",             limit: 255
+    t.string   "barcode",               limit: 255
   end
 
   add_index "inventory_items", ["project_id"], name: "index_inventory_items_on_project_id", using: :btree
@@ -105,11 +107,6 @@ ActiveRecord::Schema.define(version: 20151012225546) do
 
   add_index "logs", ["user_id"], name: "index_logs_on_user_id", using: :btree
 
-  create_table "managers_projects", id: false, force: :cascade do |t|
-    t.integer "user_id",    limit: 4
-    t.integer "project_id", limit: 4
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string   "name",       limit: 255, default: "empty"
     t.string   "litobel_id", limit: 255, default: "-"
@@ -119,6 +116,14 @@ ActiveRecord::Schema.define(version: 20151012225546) do
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
+
+  create_table "projects_users", id: false, force: :cascade do |t|
+    t.integer "project_id", limit: 4, null: false
+    t.integer "user_id",    limit: 4, null: false
+  end
+
+  add_index "projects_users", ["project_id", "user_id"], name: "index_projects_users_on_project_id_and_user_id", using: :btree
+  add_index "projects_users", ["user_id", "project_id"], name: "index_projects_users_on_user_id_and_project_id", using: :btree
 
   create_table "unit_items", force: :cascade do |t|
     t.string   "serial_number", limit: 255, default: " "

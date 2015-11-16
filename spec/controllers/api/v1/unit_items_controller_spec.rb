@@ -19,7 +19,6 @@ describe Api::V1::UnitItemsController do
       expect(unit_item_response[:name]).to eql @unit_item.name
       expect(unit_item_response[:description]).to eql @unit_item.description
       expect(unit_item_response[:image_url]).to eql @unit_item.image_url
-      expect(unit_item_response[:code_url]).to eql @unit_item.code_url
       expect(unit_item_response[:status]).to eql @unit_item.status
     end
 

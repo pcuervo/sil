@@ -41,7 +41,7 @@ describe Api::V1::InventoryItemsController do
         @inventory_item_attributes[:client_id] = client.id
 
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id, inventory_item: @inventory_item_attributes }
+        post :create, { user_id: user.id, inventory_item: @inventory_item_attributes, item_img_ext: 'jpg' }
       end
 
       it "renders the json representation for the inventory item just created" do
@@ -58,7 +58,7 @@ describe Api::V1::InventoryItemsController do
         @invalid_inventory_item_attributes = { user_id: user.id }
 
         api_authorization_header user.auth_token
-        post :create, { user_id: user.id, inventory_item: @invalid_inventory_item_attributes }
+        post :create, { user_id: user.id, inventory_item: @invalid_inventory_item_attributes, item_img_ext: 'jpg' }
       end
 
       it "renders an errors json" do
