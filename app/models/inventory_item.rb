@@ -4,7 +4,7 @@ class InventoryItem < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :project
-  has_many :inventory_transaction
+  has_many :inventory_transactions
 
   validates :name, :status, :item_type, :user, :project, presence: true
   validates :barcode, presence: true, uniqueness: true
@@ -14,7 +14,14 @@ class InventoryItem < ActiveRecord::Base
   validates_attachment_content_type :item_img, content_type: /\Aimage\/.*\Z/
 
   scope :recent, -> {
-    order(updated_at: :desc).limit(2)
+    order(updated_at: :desc).limit(10)
   }
+
+  def self.search( params = {} )
+    inventory_items = InventoryItem.all
+    inventory_items = inventory_items.recent if params[:recent].present?
+
+    inventory_items
+  end
 
 end

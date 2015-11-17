@@ -3,7 +3,7 @@ class Api::V1::InventoryItemsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with InventoryItem.order('created_at DESC').all
+    respond_with InventoryItem.search( params )
   end
 
   def show

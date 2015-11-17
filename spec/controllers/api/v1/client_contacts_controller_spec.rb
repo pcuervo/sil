@@ -41,7 +41,6 @@ RSpec.describe Api::V1::ClientContactsController, type: :controller do
       end
 
       it "return a JSON representation of the created client contact" do
-        puts json_response
         client_contact_response = json_response[:client_contact]
         expect(client_contact_response[:first_name]).to eql @client_contact_attributes[:first_name]
       end

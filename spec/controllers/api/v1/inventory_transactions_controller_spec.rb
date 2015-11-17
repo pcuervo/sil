@@ -15,4 +15,18 @@ describe Api::V1::InventoryTransactionsController do
     it { should respond_with 200 }
   end
 
+  describe "GET #index" do
+    before(:each) do
+      5.times { FactoryGirl.create :inventory_transaction }
+      get :index
+    end
+
+    it "returns 5 records from the database" do
+      inventory_transaction_response = json_response[:inventory_transactions]
+      expect(inventory_transaction_response.size).to eq(5)
+    end
+
+    it { should respond_with 200 }
+  end
+
 end
