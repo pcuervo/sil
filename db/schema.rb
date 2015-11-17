@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116201456) do
+ActiveRecord::Schema.define(version: 20151117205500) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -38,6 +38,25 @@ ActiveRecord::Schema.define(version: 20151116201456) do
 
   create_table "bulk_items", force: :cascade do |t|
     t.string   "quantity",   limit: 255, default: "0"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  create_table "bundle_item_parts", force: :cascade do |t|
+    t.string   "name",           limit: 255
+    t.string   "serial_number",  limit: 255, default: "-"
+    t.string   "brand",          limit: 255, default: "-"
+    t.string   "model",          limit: 255, default: "-"
+    t.integer  "bundle_item_id", limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "bundle_item_parts", ["bundle_item_id"], name: "index_bundle_item_parts_on_bundle_item_id", using: :btree
+
+  create_table "bundle_items", force: :cascade do |t|
+    t.integer  "num_parts",   limit: 4, default: 0
+    t.boolean  "is_complete", limit: 1, default: true
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
   end
@@ -162,6 +181,7 @@ ActiveRecord::Schema.define(version: 20151116201456) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "bundle_item_parts", "bundle_items"
   add_foreign_key "client_contacts", "clients"
   add_foreign_key "inventory_items", "projects"
   add_foreign_key "inventory_items", "users"
