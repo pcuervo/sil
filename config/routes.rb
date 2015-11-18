@@ -37,6 +37,9 @@ Sil::Application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1 , default: true) do
       
       resources :users, :only => [:index, :show, :create, :update, :destroy] do
+        collection do 
+          post 'update/', :action => 'update'
+        end
         resources :inventory_items, :only => [:create]
         resources :unit_items, :only => [:create]
           collection do 
@@ -44,11 +47,13 @@ Sil::Application.routes.draw do
             get 'get_account_executives/', :action => 'get_account_executives'
           end
         resources :bulk_items, :only => [:create]
+        resources :bundle_items, :only => [:create]
       end
       resources :sessions, :only => [:create, :destroy]
       resources :inventory_items, :only => [:index, :show]
       resources :unit_items, :only => [:index, :show]
       resources :bulk_items, :only => [:index, :show]
+      resources :bundle_items, :only => [:index, :show]
       resources :projects, :only => [:index, :show, :create, :update, :destroy] do
         collection do 
           get 'get_project_users/:id', :action => 'get_project_users'

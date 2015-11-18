@@ -1,5 +1,5 @@
 class Api::V1::BulkItemsController < ApplicationController
-respond_to :json
+  respond_to :json
   
   def show
     respond_with BulkItem.find(params[:id])

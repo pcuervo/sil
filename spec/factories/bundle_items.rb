@@ -7,7 +7,7 @@ FactoryGirl.define do
     barcode { FFaker::Vehicle.vin }
     item_type 'POP'
     is_complete true
-    num_parts 3
+    num_parts 0
   end
 
 end
