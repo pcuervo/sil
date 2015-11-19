@@ -21,6 +21,23 @@ class Api::V1::InventoryItemsController < ApplicationController
     end
   end
 
+  def by_barcode
+    inventory_item = InventoryItem.find_by_barcode(params[:barcode])
+
+    if inventory_item.present?
+      respond_with inventory_item.get_details
+      return
+    end
+    
+    render json: { errors: 'No se encontró ningún artículo' }, status: 422
+
+  end
+
+  def by_type
+    respond_with InventoryItem.where( 'actable_type=?', params[:type] )
+  end
+
+
   private
 
     def inventory_item_params

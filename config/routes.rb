@@ -54,7 +54,12 @@ Sil::Application.routes.draw do
           post 'destroy/', :action => 'destroy'
         end
       end
-      resources :inventory_items, :only => [:index, :show]
+      resources :inventory_items, :only => [:index, :show] do
+        collection do
+          get 'by_barcode/', :action => 'by_barcode'
+          get 'by_type/', :action => 'by_type'
+        end
+      end
       resources :unit_items, :only => [:index, :show]
       resources :bulk_items, :only => [:index, :show]
       resources :bundle_items, :only => [:index, :show]

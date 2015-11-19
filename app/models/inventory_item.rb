@@ -24,4 +24,28 @@ class InventoryItem < ActiveRecord::Base
     inventory_items
   end
 
+  def get_details
+    project = Project.find(self.project_id)
+    pm = project.get_pm
+    ae = project.get_ae
+    client = project.get_client
+    client_contact = project.get_client_contact
+    puts item_img(:medium).gsub('/Users/micho/Documents/cuervo/sitios/', '')
+    details = { 'inventory_item' => {
+        'name'            => self.name,
+        'actable_type'    => self.actable_type,
+        'item_type'       => self.item_type,
+        'barcode'         => self.barcode,
+        'project'         => project.name,
+        'pm'              => pm,
+        'ae'              => ae,
+        'description'     => self.description,
+        'client'          => client,
+        'client_contact'  => client_contact,
+        'img'             => item_img(:medium).gsub('/Users/micho/Documents/cuervo/sitios/', '')
+      }  
+    }
+    #details
+  end
+
 end
