@@ -49,7 +49,11 @@ Sil::Application.routes.draw do
         resources :bulk_items, :only => [:create]
         resources :bundle_items, :only => [:create]
       end
-      resources :sessions, :only => [:create, :destroy]
+      resources :sessions, :only => [:create, :destroy] do
+        collection do
+          post 'destroy/', :action => 'destroy'
+        end
+      end
       resources :inventory_items, :only => [:index, :show]
       resources :unit_items, :only => [:index, :show]
       resources :bulk_items, :only => [:index, :show]
