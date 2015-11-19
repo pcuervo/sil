@@ -36,7 +36,8 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem "paperclip", "~> 4.3"
 
-group :development do 
+gem 'mysql2'
+group :development, :production do 
   # Use sqlite3 as the database for Active Record
   #gem 'sqlite3'
   gem 'mysql2'
