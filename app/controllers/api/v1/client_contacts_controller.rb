@@ -45,10 +45,10 @@ class Api::V1::ClientContactsController < ApplicationController
     head 204
   end
 
-  def get_contacts_by_client
-    client = Client.find( params[:id] )
-    client_contacts = ClientContact.where('client_id = ?', client.id)
-    render json: client_contacts, status: 201, location: [:api, client_contact] 
+  def get_by_client
+    client_contacts = ClientContact.where('client_id = ?', params[:id] )
+    respond_with client_contacts
+    #render json: client_contacts, status: 201, location: [:api, client_contacts] 
   end
 
   private 

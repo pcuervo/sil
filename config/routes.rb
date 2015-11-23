@@ -71,7 +71,9 @@ Sil::Application.routes.draw do
       end
       resources :clients, :only => [:show, :index, :create, :update, :destroy]
       resources :client_contacts, :only => [:show, :index, :create, :update, :destroy] do
-        get 'get_contacts_by_client/', :action => 'get_contacts_by_client'
+        collection do 
+          get 'get_by_client/', :action => 'get_by_client'
+        end
       end
       resources :inventory_transactions, :only => [:show, :index]
     end
